@@ -60,6 +60,12 @@ public class Warehouse {
                 .toList();
     }
 
+    public List<Product> getModifiedProducts() {
+        return productList.stream()
+                .filter(product -> product.getModifiedDate().isAfter(product.getCreatedDate()))
+                .toList();
+    }
+
     private void checkProductName(String productName) {
         if (productName == null || productName.isEmpty())
             throw new IllegalArgumentException("Product name can not be empty or null!");

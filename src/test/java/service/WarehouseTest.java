@@ -15,6 +15,7 @@ class WarehouseTest {
     @Test
     void testAddNewProductShouldThrowExceptionWhenProductNameIsEmpty() {
         Warehouse warehouse = new Warehouse();
+
         assertThrows(IllegalArgumentException.class, () -> warehouse.addNewProduct("", Categories.HDD, 5));
     }
 
@@ -105,5 +106,20 @@ class WarehouseTest {
         warehouse.addNewProduct("C", CPU, 3);
 
         assertEquals(2, warehouse.getNewProductsAfter(LocalDateTime.of(2022,8,10,10,1)).size());
+    }
+
+    @Test
+    void testToGetAllModifiedProductsSinceCreating() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Z", CPU, 2);
+        warehouse.addNewProduct("C", CPU, 3);
+        warehouse.addNewProduct("A", GPU, 5);
+        warehouse.addNewProduct("B", CPU, 2);
+        warehouse.addNewProduct("D", CPU, 5);
+
+        warehouse.changeProduct((warehouse.getAllProducts().stream().filter(product -> product.getProductName().equals("Z")).findAny().orElse(null).getID()), "Z", CPU, 2);
+        warehouse.changeProduct((warehouse.getAllProducts().stream().filter(product -> product.getProductName().equals("D")).findAny().orElse(null).getID()), "D", CPU, 5);
+
+        assertEquals(2, warehouse.getModifiedProducts().size());
     }
 }
