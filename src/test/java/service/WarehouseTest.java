@@ -4,6 +4,7 @@ import entities.Categories;
 import entities.Product;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static entities.Categories.*;
@@ -86,5 +87,23 @@ class WarehouseTest {
                 result.get(2).getProductName().equals("D") &&
                 result.get(3).getProductName().equals("Z")&&
                 result.size() == 4);
+    }
+
+    @Test
+    void testToGetNewProductsShouldBeEmpty() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Z", CPU, 2);
+        warehouse.addNewProduct("C", CPU, 3);
+
+        assertTrue( warehouse.getNewProductsAfter(LocalDateTime.now()).isEmpty());
+    }
+
+    @Test
+    void testToGetNewProductsSinceLastYearShouldResultIn2() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Z", CPU, 2);
+        warehouse.addNewProduct("C", CPU, 3);
+
+        assertEquals(2, warehouse.getNewProductsAfter(LocalDateTime.of(2022,8,10,10,1)).size());
     }
 }

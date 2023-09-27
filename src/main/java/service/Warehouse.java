@@ -3,11 +3,12 @@ package service;
 import entities.Categories;
 import entities.Product;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class Warehouse {
 
@@ -49,6 +50,13 @@ public class Warehouse {
         return productList.stream()
                 .filter(product -> product.getCategory() == category)
                 .sorted(Comparator.comparing(Product::getProductName))
+                .toList();
+    }
+
+    public List<Product> getNewProductsAfter(LocalDateTime date) {
+        return productList.stream()
+                .filter(product -> product.getCreatedDate().isAfter(date))
+                .sorted(Comparator.comparing(Product::getCreatedDate))
                 .toList();
     }
 
