@@ -66,6 +66,20 @@ public class Warehouse {
                 .toList();
     }
 
+    public List<Categories> getCategoriesWithProducts() {
+        return productList.stream()
+                .map(Product::getCategory)
+                .distinct()
+                .toList();
+    }
+
+    public long getProductNumberInCategory(Categories category) {
+        return productList.stream()
+                .filter(product -> product.getCategory().equals(category))
+                .count();
+    }
+
+    // Private methods
     private void checkProductName(String productName) {
         if (productName == null || productName.isEmpty())
             throw new IllegalArgumentException("Product name can not be empty or null!");

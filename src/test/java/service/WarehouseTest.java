@@ -122,4 +122,24 @@ class WarehouseTest {
 
         assertEquals(2, warehouse.getModifiedProducts().size());
     }
+
+    @Test
+    void testGetAllCategoriesWithProducts() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Z", HDD, 2);
+        warehouse.addNewProduct("C", CPU, 3);
+        warehouse.addNewProduct("A", GPU, 5);
+
+        assertEquals(List.of(HDD, CPU, GPU), warehouse.getCategoriesWithProducts());
+    }
+
+    @Test
+    void testNumberOfProductsInCategory() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Z", CPU, 2);
+        warehouse.addNewProduct("C", GPU, 3);
+        warehouse.addNewProduct("D", CPU, 5);
+
+        assertEquals(2, warehouse.getProductNumberInCategory(CPU));
+    }
 }
