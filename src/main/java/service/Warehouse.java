@@ -5,7 +5,9 @@ import entities.Product;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Warehouse {
 
@@ -41,8 +43,13 @@ public class Warehouse {
                 .filter(product -> product.getID() == ID)
                 .findAny()
                 .orElse(null);
+    }
 
-
+    public List<Product> getProductsInCategory(Categories category) {
+        return productList.stream()
+                .filter(product -> product.getCategory() == category)
+                .sorted(Comparator.comparing(Product::getProductName))
+                .toList();
     }
 
     private void checkProductName(String productName) {
