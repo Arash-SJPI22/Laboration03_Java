@@ -18,7 +18,6 @@ class WarehouseTest {
     void testAddNewProductShouldEqualTrue() {
         Warehouse warehouse = new Warehouse();
         warehouse.addNewProduct("Rx580", Categories.GPU, 5);
-
         Product testProduct = warehouse.getAllProducts().get(0);
 
         assertTrue(testProduct.getProductName().equals("Rx580") &&
@@ -35,7 +34,6 @@ class WarehouseTest {
     @Test
     void testChangeProductShouldThrowExceptionWhenProductNameIsNull() {
         Warehouse warehouse = new Warehouse();
-
         warehouse.addNewProduct("i9", Categories.CPU, 3);
 
         assertThrows(IllegalArgumentException.class, () -> warehouse.changeProduct(0, null, Categories.GPU, 1));
@@ -54,6 +52,20 @@ class WarehouseTest {
         assertEquals(5, warehouse.getAllProducts().size());
     }
 
+    @Test
+    void testFindProductOnIDWhenIDIsWrong() {
+        Warehouse warehouse = new Warehouse();
+
+        assertThrows(IllegalArgumentException.class, () -> warehouse.getProductOnID(93284982));
+    }
+
+    @Test
+    void testFindProductOnID(){
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("AMD 1", Categories.CPU, 2);
+
+        assertFalse(warehouse.getAllProducts().isEmpty());
+    }
 
 
 

@@ -12,18 +12,14 @@ public class Warehouse {
     private List<Product> productList = new ArrayList<>();
 
     public void addNewProduct(String productName, Categories category, double rating) {
-        if (productName == null || productName.isEmpty())
-            throw new IllegalArgumentException("Product name can not be empty or null!");
+        checkProductName(productName);
 
         productList.add(new Product(productName, category, rating));
     }
 
     public void changeProduct(int ID, String productName, Categories category, double rating) {
-        if (productList.stream().noneMatch(product -> product.getID() == ID))
-            throw new IllegalArgumentException("Bad product ID");
-
-        if (productName == null || productName.isEmpty())
-            throw new IllegalArgumentException("Product name can not be empty or null!");
+        checkProductID(ID);
+        checkProductName(productName);
 
         productList.stream()
                 .filter(product -> product.getID() == ID)
@@ -39,4 +35,22 @@ public class Warehouse {
         return Collections.unmodifiableList(productList);
     }
 
+    public Product getProductOnID(int ID) {
+        checkProductID(ID);
+        return productList.stream()
+                .filter(product -> product.getID() == ID)
+                .findAny()
+                .orElse(null);
+
+
+    }
+
+    private void checkProductName(String productName) {
+        if (productName == null || productName.isEmpty())
+            throw new IllegalArgumentException("Product name can not be empty or null!");
+    }
+    private void checkProductID (int ID) {
+        if (productList.stream().noneMatch(product -> product.getID() == ID))
+            throw new IllegalArgumentException("Bad product ID!");
+    }
 }
