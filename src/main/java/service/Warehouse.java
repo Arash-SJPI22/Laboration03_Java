@@ -4,11 +4,8 @@ import entities.Categories;
 import entities.Product;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Warehouse {
 
@@ -77,6 +74,20 @@ public class Warehouse {
         return productList.stream()
                 .filter(product -> product.getCategory().equals(category))
                 .count();
+    }
+
+    public Map<String, Long> getMapWithFirstLetterAndNumerOfProducts () {
+        return productList.stream()
+                .collect(Collectors.groupingBy(product -> product.getProductName().substring(0, 1), Collectors.counting()));
+
+    }
+
+    public List<Product> getProductWithMaxRatingCreatedThisMonthSortedByNewestFirst () {
+        return  productList.stream()
+                .filter(product -> product.getRating() == 10)
+                .filter(product -> product.getCreatedDate().isAfter(LocalDateTime.now().minusMonths(1)))
+                .sorted(Comparator.comparing(Product::getCreatedDate).reversed())
+                .toList();
     }
 
     // Private methods

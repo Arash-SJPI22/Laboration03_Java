@@ -142,4 +142,26 @@ class WarehouseTest {
 
         assertEquals(2, warehouse.getProductNumberInCategory(CPU));
     }
+
+    @Test
+    void testMapWithFirstLetterAndNumerOfProducts() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Zorro", CPU, 2);
+        warehouse.addNewProduct("Corro", GPU, 3);
+        warehouse.addNewProduct("Zappa", CPU, 5);
+
+        assertEquals(2, warehouse.getMapWithFirstLetterAndNumerOfProducts().get("Z"));
+    }
+
+    @Test
+    void testProductWithMaxRatingCreatedThisMonthSortedByNewestFirst() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addNewProduct("Z", CPU, 10);
+        warehouse.addNewProduct("C", GPU, 9.9);
+        warehouse.addNewProduct("D", CPU, 10);
+
+        assertEquals("D", warehouse.getProductWithMaxRatingCreatedThisMonthSortedByNewestFirst().get(0).getProductName());
+        assertEquals(2, warehouse.getProductWithMaxRatingCreatedThisMonthSortedByNewestFirst().size());
+
+    }
 }
